@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <script src="d3.js" charset="utf-8"></script>
+  <style> body{ margin: 0; } </style>
+  <body>
+    <script>
+
+var svg = d3.select('body').append('svg')
+  , randX = function(){ return Math.random() * window.innerWidth }
+  , randY = function(){ return Math.random() * window.innerHeight }
+  , circles = svg.selectAll('circle').data(d3.range(6000))
+      .enter().append('circle').attr('r', 5).call(update)
+
+
+function update(circles){
+  circles.attr({ cx: randX, cy: randY })
+  // circles.attr('transform', function(){
+  //   return 'translate(' + randX() + ',' + randY() + ')'
+  // })
+}
+
+
+function animate(){
+  circles.transition().duration(2000).call(update)
+}
+setInterval(animate, 2000)
+animate()
+
+    </script>
+  </body>
+</html>

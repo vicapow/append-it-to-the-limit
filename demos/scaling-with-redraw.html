@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <script src="d3.js" charset="utf-8"></script>
+  <style> rect{ stroke: none; shape-rendering: crispEdges; } </style>
+  <body>
+    <script>
+var svg = d3.select('body').append('svg')
+  , width = window.innerWidth, height = window.innerHeight
+  , rand = Math.random, round = Math.round, n = 100000
+  , scale = d3.scale.linear().domain([0, n]).range([0, width])
+  , rects = svg.selectAll('rect')
+    .data(d3.range(n).map(function(d){ return rand() > 0.5 }))
+    .enter().append('rect')
+      .attr({
+        x: function(d, i){ return  scale(i) }
+        , width: scale(width)
+        , height: 100
+        , fill: function(d){ return d ? 'red': 'green' } 
+      })
+
+// animate with `d3.scale.linear()` change
+function animate(){
+  console.log('animation started!')
+  scale.range([0, width * 200 ])
+  rects.transition().duration(4000)
+    .attr({
+      x: function(d, i){ return  scale(i) }
+      , width: scale(width)
+    })
+}
+setTimeout(animate, 1000)
+
+    </script>
+  </body>
+</html>

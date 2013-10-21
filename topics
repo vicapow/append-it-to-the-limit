@@ -1,0 +1,7 @@
+needs tested
++ translate vs x, y
++ on('tick' with requestAnimationFrame
++ scaling vs resizing
++ transition() vs setInterval()
++ filter() to reduce DOM updates
++ 

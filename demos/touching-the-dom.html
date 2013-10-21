@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <script src="d3.js" charset="utf-8"></script>
+  <style>
+    body{ margin: 0; }
+    circle{ stroke-width: 10; stroke: green;}
+  </style>
+  <body>
+    <script>
+
+var svg = d3.select('body').append('svg')
+  , circle = svg.append('circle').attr({fill: 'red', cx: 200, cy: 200})
+  , bb, start = new Date, steps = 100000, radius = 100
+
+
+start = new Date
+d3.range(steps).forEach(function(){
+  if(radius === 100) radius = 50; else radius = 100
+})
+
+console.log('no dom: ', new Date - start)
+
+start = new Date
+d3.range(steps).forEach(function(){
+  circle.attr('r', radius)
+  radius = Number(circle.attr('r'))
+  if(radius === 100) radius = 50; else radius = 100
+})
+console.log('reference a DOM property: ', new Date - start)
+
+start = new Date
+d3.range(steps).forEach(function(){
+  circle.attr('r', radius)
+  radius = circle.attr('width') / 2
+  if(radius === 100) radius = 50; else radius = 100
+  bb = circle.node().getBBox()
+})
+console.log('ref a  computed property: ', new Date - start)
+
+
+
+start = new Date
+d3.range(steps).forEach(function(){
+  circle.attr('r', radius)
+  if(radius === 100) radius = 50; else radius = 100
+})
+console.log('non-touch time: ', new Date - start)
+
+
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    body{ margin: 0; }
+    circle{
+      fill: red;
+    }
+  </style>
+  <body>
+    <script src="d3.js" charset="utf-8"></script>
+    <script>
+var svg = d3.select('body').append('svg')
+  , r = 3, w = window.innerWidth, h = window.innerHeight, movesBetweenFrames = 0
+  , t = 0
+  , circles = svg.selectAll('circle').data(d3.range(100))
+    .enter().append('circle').attr({
+      r: r
+      , cy: function(d){ return d * r * 2 + r * 2 }
+    })
+
+setInterval(function(){
+  movesBetweenFrames++
+  circles.attr({cx: Math.sin( t++ / 100 ) * 100  + 300 })
+}, 0)
+
+function animate(){
+  if(movesBetweenFrames > 1) 
+    console.log('moves between frames ' + movesBetweenFrames)
+  movesBetweenFrames = 0
+  requestAnimationFrame(animate)
+}
+animate()
+
+
+    </script>
+  </body>
+</html>

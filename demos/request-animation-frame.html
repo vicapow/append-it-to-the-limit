@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script>
+
+var start = new Date
+
+requestAnimationFrame(function(timestamp){
+  console.log('timestamp1', timestamp)
+  console.log(new Date - start)
+})
+
+requestAnimationFrame(function(timestamp){
+  console.log('timestamp2', timestamp)
+  console.log(new Date - start)
+})
+
+    </script>
+  </body>
+</html>

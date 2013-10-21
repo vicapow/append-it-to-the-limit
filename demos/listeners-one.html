@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <script src="d3.js" charset="utf-8"></script>
+  <style> body{ margin: 0; } circle{ stroke: white; fill: steelblue; }</style>
+  <body>
+    <script>
+var svg = d3.select('body').append('svg')
+  , width = window.innerWidth, height = window.innerHeight
+  , r = 10, n = 100000, rand = Math.random
+  , circles = svg.selectAll('circle').data(d3.range(n))
+      .enter().append('circle').attr('r', r).attr({
+        cx: function(){ return rand() * width }
+        , cy: function(){return rand() * height }
+      })
+      // .on('mousemove', function(){ 
+      //   moveOutTheWay(d3.event.target) 
+      // })
+
+svg.on('mousemove', function(){
+  var target = d3.event.target
+  target.parentNode.appendChild(target)
+  moveOutTheWay(target)
+})
+
+function moveOutTheWay(el){
+  if(el === svg.node()) return
+  d3.select(el).transition().ease('cubic-out')
+    .style({fill: 'red' })
+}
+    </script>
+  </body>
+</html>

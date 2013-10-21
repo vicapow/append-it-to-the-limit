@@ -1,0 +1,54 @@
+pre {
+  background:#141414; /* hsl(0, 0%, 8%) */
+  color:#FFF;
+  padding:5px;
+  white-space:pre;
+ 
+  -webkit-border-radius:5px; /* Saf3-4, iOS 1-3.2, Android ≤1.6 */
+    border-radius:5px; /* Opera 10.5, IE9, Saf5, Chrome, FF4+, iOS 4, Android 2.1+ */
+}
+pre ::selection {
+  background: #282A2B; /* hsl(200, 4%, 16%) */ /* Safari */
+}
+pre ::-moz-selection {
+  background: #282A2B; /* hsl(200, 4%, 16%) */ /* Firefox */
+}
+pre code {
+  background:none;
+}
+ 
+pre .string { color:#8F9D6A; } /* hsl(76, 21%, 52%) */
+pre .keyword,
+pre .attribute,
+pre .lisp .title,
+pre .nginx .title,
+pre .request,
+pre .status,
+pre .tag  { color:#AC885B; } /* hsl(33, 33%, 52%) */
+pre .comment,
+pre .javadoc { color:#777777; } /* hsl(0, 0%, 47%) */
+pre .literal,
+pre .value { color:#F9EE98; } /* hsl(53, 89%, 79%) */
+pre .at_rule,
+pre .at_rule .keyword { color:#7587A6; } /* hsl(218, 22%, 55%) */
+pre .regexp { color:#E9C062; } /* hsl(42, 75%, 65%) */
+pre .number { color:#CF6A4C; } /* hsl(14, 58%, 55%) */
+pre .function .title { color:#9b703f; } /* hsl(53, 89%, 79%) */
+pre .function .params,
+pre .variable { color:#7587A6; } /* hsl(218, 22%, 55%) */
+ 
+/*===== CSS =====*/
+pre .css .id { color:#8B98AB; } /* hsl(216, 16%, 61%) */
+pre .css .class { color:#AC885B; } /* hsl(33, 33%, 52%) */
+pre .css .pseudo { color:#E0C589; } /* hsl(41, 58%, 71%) */
+/*===== END CSS =====*/
+ 
+/*===== JS =====*/
+/* #7587A6 */
+pre .javascript .keyword { color: #f9ee97; } /* hsl(218, 22%, 55%) */
+/*===== END JS =====*/
+ 
+/*===== XML =====*/
+pre .html .value,
+pre .xml .value { color:#8F9D6A; } /* hsl(76, 21%, 52%) */
+/*===== END XML =====*/

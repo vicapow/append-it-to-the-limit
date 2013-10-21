@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <script src="d3.js" charset="utf-8"></script>
+  <script>
+    var worker = new Worker("d3_layout_force.js");
+    worker.addEventListener('message', function(event){
+      event = event.data
+      if(event.type === 'tick'){
+        nodes.data(event.data).transition().duration(2000).attr({
+          cx: function(d){ return d.x }
+          , cy: function(d){ return d.y }
+        })
+      }
+    })
+  </script>
+  <body>
+    <script>
+
+var svg = d3.select('body').append('svg')
+  , width = window.innerWidth, height = window.innerHeight
+  , data = d3.range(10000).map(function(d) { return {} } )
+  , nodes = svg.selectAll('circle').data(data).enter().append('circle')
+    .attr({ r: 5 }).style({ fill : 'black' })
+
+svg.on('mouseover', function(){
+  d3.select(d3.event.target).style({fill : 'red'})
+})
+
+worker.postMessage({
+  type: 'setNodes'
+  , data: data
+  , width: width
+  , height: height
+})
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    circle{
+      stroke: white;
+    }
+    body{
+      margin: 0;
+    }
+  </style>
+  <body>
+    <script src="d3.js" charset="utf-8"></script>
+    <script src="fisheye.js" charset="utf-8"></script>
+    <script>
+var svg = d3.select('body').append('svg')
+  , w = window.innerWidth, h = window.innerHeight
+  , numNodes = 10000
+  , radius = 3
+  , color = d3.scale.category20()
+  , fisheye = d3.fisheye.circular().radius(100).distortion(6)
+  , data = d3.range(numNodes).map(function(i){ 
+    return { 
+      r: radius, x: Math.random() * w
+      , y: Math.random() * h, color: color(i) } 
+  })
+
+var nodes = svg.selectAll('circle').data(data).enter().append('circle')
+  .attr({ r: function(d){ return d.r }, fill: function(d){ return d.color } })
+
+// var force = d3.layout.force()
+//   .nodes(data)
+//   .charge(0)
+//   .gravity(0)
+//   .size([w, h])
+//   .start()
+
+// force.tick()
+// force.stop()
+
+nodes.call(update)
+
+svg.on("mousemove", function() {
+  fisheye.focus(d3.mouse(this));
+  nodes.each(function(d) {
+    var prev_x = d.fisheye && d.fisheye.x || 1
+    var prev_y = d.fisheye && d.fisheye.y || 1
+    var prev_z = d.fisheye && d.fisheye.z || 1
+    d.fisheye = fisheye(d)
+    d.fisheye.prev_x = prev_x
+    d.fisheye.prev_y = prev_y
+    d.fisheye.prev_z = prev_z
+  }).filter(function(d){ 
+    return (d.fisheye.prev_x !== d.fisheye.x 
+      || d.fisheye.prev_y !== d.fisheye.y 
+      || d.fisheye.prev_z !== d.fisheye.z)
+  }).call(updateFisheye)
+});
+
+// force.on('tick', function(){
+//   nodes.call(update)
+// })
+
+// function animate(){
+//   nodes.call(update)
+//   requestAnimationFrame(animate)
+// }
+// requestAnimationFrame(animate)
+
+
+// update the position <cx,cy> of the nodes
+function update(nodes){
+  nodes.attr({cx: function(d){ return d.x }, cy: function(d){ return d.y } })
+}
+function updateFisheye(nodes){
+  nodes.attr({
+    cx: function(d){ return d.fisheye.x }
+    , cy: function(d){ return d.fisheye.y }
+    , r: function(d){ return d.r * d.fisheye.z } 
+  })
+}
+
+    </script>
+  </body>
+</html>
