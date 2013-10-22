@@ -51,19 +51,46 @@
 
       <!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
-        <section data-markdown>
-          # .append() it to the limit
-          #### High Performance D3
-          by [Victor Powell](http://vctr.me) / [@vicapow](http://twitter.com/vicapow) 
+        <section>
+          <div data-markdown>
+            # `.append()` it to the limit
+            #### High Performance D3
+            by [Victor Powell](http://vctr.me) / [@vicapow](http://twitter.com/vicapow)
+          </div>
+          <aside class="notes" data-markdown>
+            1. My name is Victor
+            2. i am a freelance data and web developer
+            3. also an Instructor at Hack Reactor
+            4. in love with data D3
+            5. assumptions
+              + you (generally) know _what_ D3 is and _how_ to use it
+              + you have curiosity or desire to improve performance using it
+          </aside>
         </section>
 
-        <section data-markdown>
-          ## But first, a warning
+        <section>
+          <div data-markdown>
+            ## But first a warning
+          </div>
+          <aside class="notes" data-markdown>
+            + tendency to undervalue the social aspects of coding.
+            + so much so that I'd like to take the time to scare you.
+            + most of this is unnecessary _most_ of the time.
+            + so why even talk about it?
+              + it's fun
+              + things that are interactive can't run as a cron job. people are waiting
+              + the more data we can show on the screen, the more we can communicate
+          </aside>
         </section>
 
-        <section data-markdown>
-          ## When to optimize?
-          When it's laggy
+        <section>
+          <div data-markdown>
+            ## When to optimize?
+            When it's laggy
+          </div>
+          <aside class="notes" data-markdown>
+
+          </aside>
         </section>
 
         <section data-markdown>
@@ -71,91 +98,161 @@
           When it's __not__ laggy
         </section>
 
+        <section>
+          <div data-markdown>
+            ````javascript
+            // bad
+            for(var i = 0, l = array.length; i < l; i++){
+              /* ... */
+            }
+            ````
+          </div>
+          <aside class="notes" data-markdown>
+            + surprised often
+            + needlessly complicates the code at little gain in performance.
+            + (in v8 I think its an 5% performance increase)
+            + unintentional obfuscations the code
+            + we're penny wise, pound foolish
+            + humans aren't good at reasoning about power laws. there's probably some other piece of our code that's orders of magnitude slower that we should be focusing on instead.
+          </aside>
+        </section>
+
+        <section>
+          <div data-markdown>
+            ````javascript
+            // good
+            for(var i = 0; i < array.length; i++){
+              /* ... */
+            }
+            ````
+          </div>
+          <aside class="notes" data-markdown>
+            + less confusing
+            + less prone to errors
+          </aside>
+        </section>
+
+        <section>
+          <div data-markdown>
+            ````javascript
+            // even better
+            array.forEach(function(item){
+              /* ... */
+            })
+            ````
+          </div>
+          <aside class="notes" data-markdown>
+            + even better
+            + isolated scope (no scope pollution of `i` )
+            + get `item` variable name that changes
+            + works well with callbacks because of closure scope
+            + slower
+          </aside>
+        </section>
+
+        <section>
+          <div data-markdown>
+            developer time > CPU time _(most of the time)_
+          </div>
+          <aside class="notes" data-markdown>
+            + CPU time is cheap.
+            + be compassionate to your co-workers and more importantly, your future self.
+            + write code that's readable and maintainable before worrying about performance.
+            + unless performance stops whatever you're doing from functioning properly.
+            + this applies to the 99% (not the 1% that work for Google making V8 faster.)
+            + if this wasn't the case, we'd all be programming in machine code.
+          </aside>
+        </section>
+
         <section data-markdown>
           > "Premature optimization is the root of all evil" - Donald Knuth
         </section>
 
         <section data-markdown>
-          correctness > clarify > performance
+          ## Fun
         </section>
 
         <section data-markdown>
-          ````javascript
-          // bad
-          for(var i = 0, l = array.length; i < l; i++){
-            /* ... */
-          }
-          ````
-        </section>
-
-        <section data-markdown>
-          ````javascript
-          // good
-          for(var i = 0; i < array.length; i++){
-            /* ... */
-          }
-          ````
-        </section>
-
-        <section data-markdown>
-          developer time > CPU time
+          ![picture of fun album](img/fun.jpg)
         </section>
 
         <section data-markdown>
           ### `setInterval()` vs `transition()`
         </section>
 
-        <section data-markdown>
-            ````javascript
-            // bad
-            var xPos = 0
-            setInterval(function(){
-              circle.attr('cx', xPos++)
-            }, 0)
-            ````
-            [demo](../demos/set-interval.html)
+        <section>
+            <div data-markdown>
+              ````javascript
+              // bad
+              var xPos = 0
+              setInterval(function(){
+                circle.attr('cx', xPos++)
+              }, 0)
+              ````
+              [demo](../demos/set-interval.html)
+            </div>
+            <aside class="notes" data-markdown>
+              + unnecessary position updates
+                - no render
+              + animation speed dependent on the frame rate.
+            </aside>
         </section>
 
         <section data-markdown>
           [`requestAnimationFrame()`](https://developer.mozilla.org/en-US/docs/Web/API/window.requestAnimationFrame)
         </section>
 
-        <section data-markdown>
-            ````javascript
-            // good
-            circle.attr('cx', startX)
-              .transition().duration(2000).attr('cx', endX)
-            ````
+        <section>
+            <div data-markdown>
+              ````javascript
+              // good
+              circle.attr('cx', startX)
+                .transition().duration(2000).attr('cx', endX)
+              ````
+            </div>
+            <aside class="notes" data-markdown>
+              + Mike Bostock was smart enough to notice this was would be problem and fixed it for us with transitions which utilize requestAnimationFrame implicitly.
+            </aside>
         </section>
 
-        <section data-markdown>
-          ````javascript
-          // good
-          force.on('tick', function(){ /* ... */ })
-          ````
+        <section>
+          <div data-markdown>
+            ````javascript
+            // also good
+            force.on('tick', function(){ /* ... */ })
+            ````
+          </div>
+          <aside class="notes" data-markdown>
+            + same for `force.on('tick')`
+          </aside>
         </section>
 
         <section data-markdown>
           ### scaling with [redraw](../demos/scaling-with-redraw.html) vs [transform: scale(x,y)](../demos/scaling-with-scale.html)
         </section>
 
-        <section data-markdown>
-          <script type="text/template">
-          ### [`CX` & `CY`](../demos/cx-cy.html) vs [`transform`](../demos/transform.html)
-          ````html
-          <!-- slower-->
-          <circle transform="translate(10,10)"></circle>
-          <!-- faster -->
-          <circle cx="10" cy="10"></circle>
-          ````
-          </script>
+        <section>
+          <div data-markdown>
+            <script type="text/template">
+            ### [`CX` & `CY`](../demos/cx-cy.html) vs [`transform`](../demos/transform.html)
+            ````html
+            <!-- slower-->
+            <circle transform="translate(10,10)"></circle>
+            <!-- faster -->
+            <circle cx="10" cy="10"></circle>
+            ````
+            </script>
+          </div>
+          <aside class="notes" data-markdown>
+            ~20 faster
+          </aside>
         </section>
 
         <section data-markdown>
           ### [Multiple listeners](../demos/listeners-multiple.html) vs [one listener](../demos/listeners-one.html)
           ````javascript
           svg.on('mousemove', /*...*/)
-          // vs
+          // didn't notice a difference
           circles.on('mousemove', /* ... */)
           ````
         </section>
@@ -166,11 +263,30 @@
         </section>
 
         <section data-markdown>
-          ### More specifically, don't touch _computed_ DOM properties
+          ### More importantly, don't touch [__computed__ DOM properties](../demos/touching-the-dom.html)
+          ````javascript
+          circle.attr('r') // non-computed property
+          circle.attr('width') // computed (x10 or more slower)
+          ````
         </section>
 
         <section data-markdown>
-          ````js
+          ### [filtering](../demos/the-power-of-filter.html) out elements that we know haven't changed.
+          ````javascript
+          circles.filter(function(d){
+            var needsUpdated = false
+            // check if this node needs to be updated...
+            return needsUpdated
+          }).call(update)
+          ````
+        </section>
+
+        <section data-markdown>
+          ### [`charge()` vs `gravity()` vs `links()`](../demos/charge-vs-force-vs-links.html) in force layouts
+        </section>
+
+        <section data-markdown>
+          ### [Baking force layouts](../demos/web-workers/index.html) with Web workers (an experiment)
         </section>
 
       </div>
@@ -185,7 +301,7 @@
       // https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
         controls: false,
-        progress: false,
+        progress: true,
         history: true,
         center: true,
 

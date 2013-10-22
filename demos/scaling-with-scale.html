@@ -1,23 +1,31 @@
 <!DOCTYPE html>
 <html>
   <script src="d3.js" charset="utf-8"></script>
-  <style> rect{ stroke: none; shape-rendering: crispEdges; } </style>
+  <style> 
+    rect{ stroke: none; shape-rendering: crispEdges; } 
+    body { margin: 0; }
+  </style>
   <body>
     <script>
 var svg = d3.select('body').append('svg')
   , width = window.innerWidth, height = window.innerHeight
-  , rand = Math.random, round = Math.round, n = 100000
-  , scale = d3.scale.linear().domain([0, n]).range([0, width])
+  , rand = Math.random, round = Math.round, n = 10000
   , rects = svg.append('g')
+  , offset = 0
 
 rects.selectAll('rect')
-  .data(d3.range(n).map(function(d){ return rand() > 0.5 }))
+  .data(d3.range(n).map(function(d, i){ 
+    var width = round(rand() * 1) 
+    var rect = { x: offset , width: width, color: i % 2 ? 'red' : 'green' }
+    offset += width
+    return rect
+  }))
   .enter().append('rect')
     .attr({
-      x: function(d, i){ return  scale(i) }
-      , width: width / n
-      , height: 100
-      , fill: function(d){ return d ? 'red': 'green' } 
+      x: function(d){ return  d.x }
+      , width: function(d){ return d.width }
+      , height: height
+      , fill: function(d){ return d.color } 
     })
 
 // animate with `scale transform` change

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <script src="d3.js" charset="utf-8"></script>
+  <style> body{ margin: 0; } circle{ fill: orange; stroke: white; }</style>
+  <body>
+    <script>
+
+var svg = d3.select('body').append('svg')
+  , randX = function(){ return Math.random() * window.innerWidth }
+  , randY = function(){ return Math.random() * window.innerHeight }
+  , radius = 2
+  , nodes = d3.range(4000).map(function(d){ return { id: d} })
+  , force = d3.layout.force().nodes(nodes).size([window.innerWidth, window.innerHeight])
+    .gravity(0)
+    //.charge(-3)
+    .charge(0)
+    .links(d3.range(nodes.length - 1).map(function(d){ 
+      return { source: d % nodes.length, target: (d + 1) % nodes.length }
+    }))
+  , circles = svg.selectAll('circle').data(nodes)
+      .enter().append('circle').attr('r', radius)
+
+force.start()
+
+force.on('tick', function(){
+  circles.attr({ cx: function(d){ return d.x }, cy: function(d){ return d.y } })
+})
+
+// print average frame delay
+var lastFrame = new Date
+var frameDurations = []
+;(function frame(){
+  var now = new Date
+  var duration = now - lastFrame
+  frameDurations.push(duration)
+  lastFrame = now
+  console.log(d3.mean(frameDurations))
+  //console.log('duration', duration)
+  requestAnimationFrame(frame)
+})()
+
+    </script>
+  </body>
+</html>

@@ -11,8 +11,8 @@
     <script>
 var svg = d3.select('body').append('svg')
   , r = 3, w = window.innerWidth, h = window.innerHeight, movesBetweenFrames = 0
-  , t = 0
-  , circles = svg.selectAll('circle').data(d3.range(100))
+  , t = 0, n = 1000
+  , circles = svg.selectAll('circle').data(d3.range(n))
     .enter().append('circle').attr({
       r: r
       , cy: function(d){ return d * r * 2 + r * 2 }
@@ -20,7 +20,7 @@ var svg = d3.select('body').append('svg')
 
 setInterval(function(){
   movesBetweenFrames++
-  circles.attr({cx: Math.sin( t++ / 100 ) * 100  + 300 })
+  circles.attr({cx: Math.sin( t++ / 100 ) * w / 2  + w / 2 })
 }, 0)
 
 function animate(){

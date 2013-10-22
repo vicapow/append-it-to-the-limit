@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <script src="d3.js" charset="utf-8"></script>
+  <style> body{ margin: 0; } circle{ fill: orange; stroke: white; }</style>
+  <body>
+    <script>
+
+var svg = d3.select('body').append('svg')
+  , width = window.innerWidth, height = window.innerHeight
+  , randX = function(){ return Math.random() * width }
+  , randY = function(){ return Math.random() * height }
+  , radius = 2
+  , n = 1000
+  , nodes = d3.range(n).map(function(d){ return { id: d, charge: -1} })
+  , force = d3.layout.force().nodes(nodes).size([width, height])
+    .gravity(0)
+    .charge(function(node){ return node.charge })
+    // .charge(-1)
+  , circles = svg.selectAll('circle').data(nodes)
+      .enter().append('circle').attr('r', radius)
+
+fociCharge = 10000
+
+// var foci1 = nodes[nodes.length - 4]
+// foci1.fixed = true
+// foci1.x = width / 4
+// foci1.y = height / 4
+// foci1.charge = fociCharge
+
+// var foci2 = nodes[nodes.length - 3]
+// foci2.fixed = true
+// foci2.x = width * 3 / 4
+// foci2.y = height / 4
+// foci2.charge = fociCharge
+
+// var foci3 = nodes[nodes.length - 2]
+// foci3.fixed = true
+// foci3.x = width / 4
+// foci3.y = height * 3 / 4
+// foci3.charge = fociCharge
+
+// var foci4 = nodes[nodes.length - 1]
+// foci4.fixed = true
+// foci4.x = width * 3 / 4
+// foci4.y = height * 3 / 4
+// foci4.charge = fociCharge
+
+
+// var foci1 = nodes[nodes.length - 1]
+// foci1.fixed = true
+// foci1.x = width / 2
+// foci1.y = height / 2
+// foci1.charge = fociCharge
+
+
+force.start()
+
+force.on('tick', function(){
+  circles.attr({ cx: function(d){ return d.x }, cy: function(d){ return d.y } })
+})
+
+// print average frame delay
+var lastFrame = new Date
+var frameDurations = []
+;(function frame(){
+  var now = new Date
+  var duration = now - lastFrame
+  frameDurations.push(duration)
+  lastFrame = now
+  console.log(d3.mean(frameDurations))
+  //console.log('duration', duration)
+  requestAnimationFrame(frame)
+})()
+
+    </script>
+  </body>
+</html>

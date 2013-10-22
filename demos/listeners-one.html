@@ -6,7 +6,7 @@
     <script>
 var svg = d3.select('body').append('svg')
   , width = window.innerWidth, height = window.innerHeight
-  , r = 10, n = 100000, rand = Math.random
+  , r = 10, n = 10000, rand = Math.random
   , circles = svg.selectAll('circle').data(d3.range(n))
       .enter().append('circle').attr('r', r).attr({
         cx: function(){ return rand() * width }
@@ -27,6 +27,21 @@ function moveOutTheWay(el){
   d3.select(el).transition().ease('cubic-out')
     .style({fill: 'red' })
 }
+
+
+var lastFrame = new Date
+var frameDurations = []
+var t = 0
+;(function frame(){
+  var now = new Date
+  frameDurations.push(now - lastFrame)
+  lastFrame = now
+  if(t++ % 10 === 0) console.log(d3.mean(frameDurations))
+  //if(frameDurations.length > 30) frameDurations.shift()
+  requestAnimationFrame(frame)
+})()
+
+
     </script>
   </body>
 </html>
