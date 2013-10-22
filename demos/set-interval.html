@@ -11,7 +11,7 @@
     <script>
 var svg = d3.select('body').append('svg')
   , r = 3, w = window.innerWidth, h = window.innerHeight, movesBetweenFrames = 0
-  , t = 0, n = 1000
+  , t = 0, n = 100000
   , circles = svg.selectAll('circle').data(d3.range(n))
     .enter().append('circle').attr({
       r: r

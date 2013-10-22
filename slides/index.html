@@ -59,12 +59,12 @@
           </div>
           <aside class="notes" data-markdown>
             1. My name is Victor
-            2. i am a freelance data and web developer
+            2. freelance data vis and web dev
             3. also an Instructor at Hack Reactor
-            4. in love with data D3
+            4. in love with data, D3
             5. assumptions
-              + you (generally) know _what_ D3 is and _how_ to use it
-              + you have curiosity or desire to improve performance using it
+              + what/how D3
+              + curiosity
           </aside>
         </section>
 
@@ -73,13 +73,14 @@
             ## But first a warning
           </div>
           <aside class="notes" data-markdown>
-            + tendency to undervalue the social aspects of coding.
+            + tendency .. social aspects
             + so much so that I'd like to take the time to scare you.
             + most of this is unnecessary _most_ of the time.
             + so why even talk about it?
               + it's fun
-              + things that are interactive can't run as a cron job. people are waiting
-              + the more data we can show on the screen, the more we can communicate
+              + not cron jobs
+              + people are waiting
+              + more data -> more communication
           </aside>
         </section>
 
@@ -156,16 +157,22 @@
           </div>
           <aside class="notes" data-markdown>
             + CPU time is cheap.
-            + be compassionate to your co-workers and more importantly, your future self.
-            + write code that's readable and maintainable before worrying about performance.
-            + unless performance stops whatever you're doing from functioning properly.
-            + this applies to the 99% (not the 1% that work for Google making V8 faster.)
-            + if this wasn't the case, we'd all be programming in machine code.
+            + compassionate to self
+            + readable + maintainable > performance
+            + performance when it matters
+            + applies to the 99% not 1% (v8)
+            + else machine code.
           </aside>
         </section>
 
-        <section data-markdown>
-          > "Premature optimization is the root of all evil" - Donald Knuth
+        <section>
+          <div data-markdown>
+            > "Premature optimization is the root of all evil" - Donald Knuth
+          </div>
+          <aside class="notes" data-markdown>
+            + "venerable" 
+            + art of computer programming
+          </aside>
         </section>
 
         <section data-markdown>
@@ -194,7 +201,7 @@
             <aside class="notes" data-markdown>
               + unnecessary position updates
                 - no render
-              + animation speed dependent on the frame rate.
+              + speed dependent on the frame rate.
             </aside>
         </section>
 
@@ -211,7 +218,8 @@
               ````
             </div>
             <aside class="notes" data-markdown>
-              + Mike Bostock was smart enough to notice this was would be problem and fixed it for us with transitions which utilize requestAnimationFrame implicitly.
+              + d3 does this
+              + __SHOULD BE HALF WAY__
             </aside>
         </section>
 
@@ -227,8 +235,14 @@
           </aside>
         </section>
 
-        <section data-markdown>
-          ### scaling with [redraw](../demos/scaling-with-redraw.html) vs [transform: scale(x,y)](../demos/scaling-with-scale.html)
+        <section>
+          <div data-markdown>
+            ### scaling with [redraw](../demos/scaling-with-redraw.html) vs [transform: scale(x,y)](../demos/scaling-with-scale.html)
+          </div>
+          <aside class="notes" data-markdown>
+            + translate
+            + "avoiding instance changes" - john
+          </aside>
         </section>
 
         <section>
@@ -270,15 +284,20 @@
           ````
         </section>
 
-        <section data-markdown>
-          ### [filtering](../demos/the-power-of-filter.html) out elements that we know haven't changed.
-          ````javascript
-          circles.filter(function(d){
-            var needsUpdated = false
-            // check if this node needs to be updated...
-            return needsUpdated
-          }).call(update)
-          ````
+        <section>
+          <div data-markdown>
+            ### [filtering](../demos/the-power-of-filter.html) out elements that we know haven't changed.
+            ````javascript
+            circles.filter(function(d){
+              var needsUpdated = false
+              // check if this node needs to be updated...
+              return needsUpdated
+            }).call(update)
+            ````
+          </div>
+          <aside class="notes" data-markdown>
+            + "work minimization techniques" - john
+          </aside>
         </section>
 
         <section data-markdown>
